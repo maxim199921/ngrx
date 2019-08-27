@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {IUser} from '../../models/user';
+import {IGallery} from '../../models/gallery';
 
 export enum EUserActions {
   GetUsers = '[User] Get Users',
@@ -14,7 +14,7 @@ export class GetUsers implements Action {
 
 export class GetUsersSuccess implements Action {
   public readonly type = EUserActions.GetUsersSuccess;
-  constructor(public payload: IUser[]) {}
+  constructor(public payload: IGallery[]) {}
 }
 
 export class GetUser implements Action {
@@ -24,7 +24,7 @@ export class GetUser implements Action {
 
 export class GetUserSuccess implements Action {
   public readonly type = EUserActions.GetUserSuccess;
-  constructor(public payload: IUser) {}
+  constructor(public payload: IGallery) {}
 }
 
 export type UserActions = GetUsers | GetUsersSuccess | GetUser | GetUserSuccess;

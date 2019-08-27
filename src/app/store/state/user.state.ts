@@ -1,8 +1,8 @@
-import {IUser} from '../../models/user';
+import {IGallery} from '../../models/gallery';
 
 export interface IUserState {
-  users: IUser[];
-  selectedUser: IUser;
+  users: IGallery[];
+  selectedUser: IGallery;
 }
 
 export const initialUserState: IUserState = {
