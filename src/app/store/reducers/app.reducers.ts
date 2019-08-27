@@ -5,5 +5,5 @@ import {galleryReducers} from './gallery.reducers';
 
 export const appReducers: ActionReducerMap<IAppState, any> = {
   router: routerReducer,
-  users: galleryReducers,
+  data: galleryReducers,
 };

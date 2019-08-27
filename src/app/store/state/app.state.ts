@@ -4,11 +4,11 @@ import { IGalleryState, initialGalleryState } from './gallery.state';
 
 export interface IAppState {
   router?: RouterReducerState;
-  users: IGalleryState;
+  data: IGalleryState;
 }
 
 export const initialAppState: IAppState = {
-  users: initialGalleryState,
+  data: initialGalleryState,
 };
 
 export function getInitialState(): IAppState {
