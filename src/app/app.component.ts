@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {GalleryService} from './services/gallery.service';
-import {IGallery} from './models/gallery';
+import {select, Store} from '@ngrx/store';
+import {IAppState} from './store/state/app.state';
+import {GetData} from './store/actions/gallery.actions';
+import {galleryData} from './store/selectors/gallery.selector';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +12,18 @@ import {IGallery} from './models/gallery';
 })
 export class AppComponent implements OnInit {
 
-  public data: IGallery[];
+  public data$ = this.store.pipe(select(galleryData));
 
   constructor(
-    private galleryService: GalleryService
+    private store: Store<IAppState>,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.galleryService.getGalleryData()
-      .subscribe( (data: IGallery[]) => {
-        this.data = data;
-      });
+    this.store.dispatch(new GetData());
   }
 
+  showImg(id: number) {
+    this.router.navigate(['', id]);
+  }
 }

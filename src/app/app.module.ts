@@ -6,6 +6,13 @@ import {AppComponent} from './app.component';
 import {GalleryService} from './services/gallery.service';
 import {HttpClientModule} from '@angular/common/http';
 import { ViewImgComponent } from './components/view-img/view-img.component';
+import {StoreModule} from '@ngrx/store';
+import {appReducers} from './store/reducers/app.reducers';
+import {EffectsModule} from '@ngrx/effects';
+import {GalleryEffects} from './store/effect/gallery.effects';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,7 +22,11 @@ import { ViewImgComponent } from './components/view-img/view-img.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([GalleryEffects]),
+    StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [GalleryService],
   bootstrap: [AppComponent]

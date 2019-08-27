@@ -1,8 +1,8 @@
 <ng-container>
   <h1 class="title">Gallery</h1>
   <div class="gallery">
-    <div class="wrapper" *ngFor="let element of data;">
-      <img class="img" src="{{element.url}}"/>
+    <div class="wrapper" *ngFor="let element of (data$ | async);">
+      <img class="img" src="{{element.url}}" (click)="showImg(element.id)"/>
     </div>
   </div>
 </ng-container>

@@ -1,14 +1,14 @@
 import { RouterReducerState } from '@ngrx/router-store';
 
-import { IUserState, initialUserState } from './user.state';
+import { IGalleryState, initialGalleryState } from './gallery.state';
 
 export interface IAppState {
   router?: RouterReducerState;
-  users: IUserState;
+  users: IGalleryState;
 }
 
 export const initialAppState: IAppState = {
-  users: initialUserState,
+  users: initialGalleryState,
 };
 
 export function getInitialState(): IAppState {
