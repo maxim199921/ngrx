@@ -1,14 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Effect, ofType, Actions} from '@ngrx/effects';
-import {map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-
 import {IGallery} from '../../models/gallery';
 import {EGaleryActions, GetData, GetDataSuccess, GetImage, GetImageSuccess} from '../actions/gallery.actions';
 import {GalleryService} from '../../services/gallery.service';
-import {select, Store} from '@ngrx/store';
-import {galleryData} from '../selectors/gallery.selector';
-import {IAppState} from '../state/app.state';
 
 @Injectable()
 export class GalleryEffects {
@@ -26,20 +22,21 @@ export class GalleryEffects {
   @Effect()
   getImg$ = this.actions$.pipe(
     ofType<GetImage>(EGaleryActions.GetImage),
-    map((action) => {
-      return action.payload;
-    }),
-    withLatestFrom(this.store.pipe(select(galleryData))),
-    switchMap( ([id, data]) => {
-       const selectedImg = data.find(user => user.id === +id);
-       return of(new GetImageSuccess(selectedImg));
-    })
+    map( action => +action.payload),
+    switchMap(id =>
+      this.galleryService.getGalleryData().pipe(
+        map(data => {
+          return data.find(el => el.id === id);
+        }),
+        switchMap( (selectedImg) => {
+           return of(new GetImageSuccess(selectedImg));
+        })
+      )
+    )
   );
 
   constructor(
     private galleryService: GalleryService,
-    private actions$: Actions,
-    private store: Store<IAppState>
-  ) {
-  }
+    private actions$: Actions
+  ) {}
 }
