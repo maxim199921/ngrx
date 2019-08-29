@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Effect, ofType, Actions} from '@ngrx/effects';
-import {map, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {of, throwError} from 'rxjs';
 import {IGallery} from '../../models/gallery';
 import {EGaleryActions, GetData, GetDataSuccess, GetImage, GetImageSuccess} from '../actions/gallery.actions';
 import {GalleryService} from '../../services/gallery.service';
@@ -16,6 +16,9 @@ export class GalleryEffects {
     }),
     switchMap((data: IGallery[]) => {
       return of(new GetDataSuccess(data));
+    }),
+    catchError(err => {
+      return throwError(err);
     })
   );
 
@@ -32,7 +35,10 @@ export class GalleryEffects {
            return of(new GetImageSuccess(selectedImg));
         })
       )
-    )
+    ),
+    catchError(err => {
+      return throwError(err);
+    })
   );
 
   constructor(
